@@ -36,8 +36,8 @@ if __name__ == "__main__":
         plant.set_height(h)
         plant.set_age(a)
         print(
-            "\nCurrent plant:" + plant.name +
-            f"({plant.get_height()}cm, {plant.get_age()} days)"
+            "\nCurrent plant: " + plant.name +
+            f" ({plant.get_height()}cm, {plant.get_age()} days)"
         )
     else:
         if h <= 0 and a <= 0:
