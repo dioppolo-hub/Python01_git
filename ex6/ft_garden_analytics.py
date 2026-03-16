@@ -31,29 +31,27 @@ class GardenManager:
         return height > 0
 
     class GardenStats:
-        @classmethod
-        def gardens_plants(cls, plants):
+        def gardens_plants(self, plants):
             print("Plants in garden:")
             for plant in plants:
                 print(f"- {plant.name}: {plant.height}cm", end="")
-                if type(plant) == FloweringPlant:
+                if plant.types == 'FloweringPlant':
                     print(f", {plant.color} flowers", end="")
                     if plant.age > 20:
-                        print(f" (blooming)")
+                        print(" (blooming)")
                     else:
                         print()
-                elif type(plant) == PrizeFlower:
+                elif plant.types == 'PrizeFlower':
                     print(f", {plant.color} flowers", end="")
                     if plant.age > 20:
-                        print(f" (blooming)", end="")
+                        print(" (blooming)", end="")
                     if plant.points > 0:
                         print(f", Prize points: {plant.points}", end="")
-                elif type(plant) == Plant:
+                elif plant.types == 'Plant':
                     print()
             print()
 
-        @staticmethod
-        def count_plants(plants, total_growth):
+        def count_plants(self, plants, total_growth):
             num = 0
             pl = 0
             f = 0
@@ -62,14 +60,16 @@ class GardenManager:
                 num += 1
             print(f"\nPlant added: {num}, total growth: {total_growth}cm")
             for plant in plants:
-                if type(plant) == Plant:
+                if plant.types == 'Plant':
                     pl += 1
-                elif type(plant) == FloweringPlant:
+                elif plant.types == 'FloweringPlant':
                     f += 1
-                elif type(plant) == PrizeFlower:
+                elif plant.types == 'PrizeFlower':
                     pr += 1
-            print(f"Plant types: {pl} regular, {f} flowering, {pr} prize flowers")
-
+            print(
+                f"Plant types: {pl} regular, {f} flowering," +
+                f" {pr} prize flowers"
+            )
 
         def calculate_score(self, plants):
             score = 0
@@ -86,11 +86,12 @@ class GardenManager:
 
 
 class Plant:
-    def __init__(self, name, height, age, points):
+    def __init__(self, name, height, age, points, types):
         self.name = name
         self.height = height
         self.age = age
         self.points = 0
+        self.types = 'Plant'
 
     def grow(self):
         self.height += 1
@@ -99,29 +100,32 @@ class Plant:
 
 
 class FloweringPlant(Plant):
-    def __init__(self, name, height, age, color, points):
-        super().__init__(name, height, age, points)
+    def __init__(self, name, height, age, color, points, types):
+        super().__init__(name, height, age, points, types)
         self.color = color
         self.points = 0
+        self.types = 'FloweringPlant'
 
 
 class PrizeFlower(FloweringPlant):
-    def __init__(self, name, height, age, color, points):
-        super().__init__(name, height, age, color, points)
+    def __init__(self, name, height, age, color, points, types):
+        super().__init__(name, height, age, color, points, types)
         self.points = points
+        self.types = 'PrizeFlower'
 
 
 if __name__ == "__main__":
     print("=== Garden Management System Demo ===\n")
+    network = GardenManager.create_garden_network()
     alice_garden = GardenManager("Alice")
     bob_garden = GardenManager("Bob")
 
-    oak = Plant("Oak", 250, 1850, 0)
-    rose = FloweringPlant("Rose", 25, 15, "Red", 0)
-    sunflower = PrizeFlower("Sunflower", 35, 40, "Yellow", 10)
-    bob_oak = Plant("Oak", 75, 1850, 0)
-    bob_rose = FloweringPlant("Rose", 15, 10, "Red", 0)
-    bob_sunflower = PrizeFlower("Sunflower", 35, 40, "Yellow", 10)
+    oak = Plant("Oak", 250, 1850, 0, '')
+    rose = FloweringPlant("Rose", 25, 15, "Red", 0, '')
+    sunflower = PrizeFlower("Sunflower", 35, 40, "Yellow", 10, '')
+    bob_oak = Plant("Oak", 75, 1850, 0, '')
+    bob_rose = FloweringPlant("Rose", 15, 10, "Red", 0, '')
+    bob_sunflower = PrizeFlower("Sunflower", 35, 40, "Yellow", 10, '')
 
     alice_garden.add_plant(oak)
     print("Added Oak Tree to Alice's garden")
@@ -136,8 +140,9 @@ if __name__ == "__main__":
     total_growth = alice_garden.grow_plants()
 
     print("\n=== Alice's Garden Report ===")
-    GardenManager.GardenStats.gardens_plants(alice_garden.plants)
-    GardenManager.GardenStats.count_plants(alice_garden.plants, total_growth)
+    stats = GardenManager.GardenStats()
+    stats.gardens_plants(alice_garden.plants)
+    stats.count_plants(alice_garden.plants, total_growth)
     print("\nHeight validation test:", GardenManager.validate_height(100))
 
     stats = GardenManager.GardenStats()
