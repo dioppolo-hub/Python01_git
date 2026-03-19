@@ -71,14 +71,16 @@ class GardenManager:
                 f" {pr} prize flowers"
             )
 
-        def calculate_score(self, plants):
+        @staticmethod
+        def calculate_score(plants):
             score = 0
             for plant in plants:
                 score += plant.get_height()
                 score += plant.get_points()
             return score
 
-        def calculate_stats(self, owners):
+        @staticmethod
+        def calculate_stats(owners):
             num = 0
             for owner in owners:
                 num += 1
@@ -151,10 +153,8 @@ if __name__ == "__main__":
     stats.count_plants(alice_garden.plants, total_growth)
     print("\nHeight validation test:", GardenManager.validate_height(100))
 
-    stats = GardenManager.GardenStats()
-    alice_score = stats.calculate_score(alice_garden.plants)
-    bob_score = stats.calculate_score(bob_garden.plants)
+    alice_score = GardenManager.GardenStats.calculate_score(alice_garden.plants)
+    bob_score = GardenManager.GardenStats.calculate_score(bob_garden.plants)
     print(f"Garden scores - Alice: {alice_score}, Bob: {bob_score}")
 
-    stats = GardenManager.GardenStats()
-    stats.calculate_stats(GardenManager.all_gardens)
+    GardenManager.GardenStats.calculate_stats(GardenManager.all_gardens)
