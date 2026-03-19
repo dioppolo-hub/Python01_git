@@ -90,7 +90,7 @@ class Plant:
         self.name = name
         self.__height = height
         self.age = age
-        self.__points = 0
+        self._points = 0
         self.types = 'Plant'
 
     def grow(self):
@@ -99,7 +99,7 @@ class Plant:
         return self.__height
 
     def get_points(self):
-        return self.__points
+        return self._points
 
     def get_height(self):
         return self.__height
@@ -109,14 +109,14 @@ class FloweringPlant(Plant):
     def __init__(self, name, height, age, color, points, types):
         super().__init__(name, height, age, points, types)
         self.color = color
-        self.__points = 0
+        self._points = 0
         self.types = 'FloweringPlant'
 
 
 class PrizeFlower(FloweringPlant):
     def __init__(self, name, height, age, color, points, types):
         super().__init__(name, height, age, color, points, types)
-        self.__points = points
+        self._points = points
         self.types = 'PrizeFlower'
 
 
