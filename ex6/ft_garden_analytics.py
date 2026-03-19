@@ -17,9 +17,9 @@ class GardenManager:
         print(self.owner, "is helping all plants grow...")
         total_growth = 0
         for plant in self.plants:
-            before = plant.height
+            before = plant.get_height()
             plant.grow()
-            total_growth += plant.height - before
+            total_growth += plant.get_height() - before
         return total_growth
 
     @classmethod
@@ -34,7 +34,7 @@ class GardenManager:
         def gardens_plants(self, plants):
             print("Plants in garden:")
             for plant in plants:
-                print(f"- {plant.name}: {plant.height}cm", end="")
+                print(f"- {plant.name}: {plant.get_height()}cm", end="")
                 if plant.types == 'FloweringPlant':
                     print(f", {plant.color} flowers", end="")
                     if plant.age > 20:
@@ -45,8 +45,8 @@ class GardenManager:
                     print(f", {plant.color} flowers", end="")
                     if plant.age > 20:
                         print(" (blooming)", end="")
-                    if plant.points > 0:
-                        print(f", Prize points: {plant.points}", end="")
+                    if plant.get_points() > 0:
+                        print(f", Prize points: {plant.get_points()}", end="")
                 elif plant.types == 'Plant':
                     print()
             print()
@@ -74,8 +74,8 @@ class GardenManager:
         def calculate_score(self, plants):
             score = 0
             for plant in plants:
-                score += plant.height
-                score += plant.points
+                score += plant.get_height()
+                score += plant.get_points()
             return score
 
         def calculate_stats(self, owners):
@@ -96,7 +96,13 @@ class Plant:
     def grow(self):
         self.__height += 1
         print(self.name, "grew 1cm")
-        return self.height
+        return self.__height
+
+    def get_points(self):
+        return self.__points
+
+    def get_height(self):
+        return self.__height
 
 
 class FloweringPlant(Plant):
