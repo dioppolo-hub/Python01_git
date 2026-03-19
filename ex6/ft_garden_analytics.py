@@ -88,13 +88,13 @@ class GardenManager:
 class Plant:
     def __init__(self, name, height, age, points, types):
         self.name = name
-        self.height = height
+        self.__height = height
         self.age = age
-        self.points = 0
+        self.__points = 0
         self.types = 'Plant'
 
     def grow(self):
-        self.height += 1
+        self.__height += 1
         print(self.name, "grew 1cm")
         return self.height
 
@@ -103,14 +103,14 @@ class FloweringPlant(Plant):
     def __init__(self, name, height, age, color, points, types):
         super().__init__(name, height, age, points, types)
         self.color = color
-        self.points = 0
+        self.__points = 0
         self.types = 'FloweringPlant'
 
 
 class PrizeFlower(FloweringPlant):
     def __init__(self, name, height, age, color, points, types):
         super().__init__(name, height, age, color, points, types)
-        self.points = points
+        self.__points = points
         self.types = 'PrizeFlower'
 
 
